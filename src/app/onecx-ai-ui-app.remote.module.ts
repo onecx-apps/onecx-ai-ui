@@ -1,4 +1,8 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import {
   APP_INITIALIZER,
   DoBootstrap,
@@ -25,12 +29,12 @@ import {
   initializeRouter,
 } from '@onecx/angular-webcomponents';
 import {
-  addInitializeModuleGuard,
   AppStateService,
   ConfigurationService,
   createTranslateLoader,
   PortalCoreModule,
 } from '@onecx/portal-integration-angular';
+import { addInitializeModuleGuard } from '@onecx/angular-integration-interface';
 import { AppEntrypointComponent } from './app-entrypoint.component';
 import { routes } from './app-routing.module';
 import { commonImports } from './app.module';
@@ -61,7 +65,6 @@ effectProvidersForWorkaround.forEach((p) => (p.ɵprov.providedIn = null));
     }),
     SharedModule,
     BrowserModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     AngularAuthModule,
     StoreModule.forRoot(reducers, { metaReducers }),
@@ -88,6 +91,7 @@ effectProvidersForWorkaround.forEach((p) => (p.ɵprov.providedIn = null));
       multi: true,
       deps: [Router, AppStateService],
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class OnecxAiUiModule implements DoBootstrap {
