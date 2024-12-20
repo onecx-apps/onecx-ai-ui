@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 import { PortalCoreModule } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AppComponent } from './app.component'
+import { provideHttpClient } from '@angular/common/http'
 
 describe('AppComponent', () => {
   const mockActivatedRoute = {}
@@ -12,7 +13,7 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        PortalCoreModule.forRoot('test'),
+        PortalCoreModule,
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../assets/i18n/en.json')).withTranslations(
           'de',
@@ -20,7 +21,11 @@ describe('AppComponent', () => {
           require('./../assets/i18n/de.json')
         )
       ],
-      providers: [provideHttpClientTesting(), { provide: ActivatedRoute, useValue: mockActivatedRoute }]
+      providers: [
+        provideHttpClientTesting(),
+        provideHttpClient(),
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+      ]
     }).compileComponents()
   })
 
