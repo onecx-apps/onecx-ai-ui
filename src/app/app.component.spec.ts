@@ -1,24 +1,26 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
-import { RouterTestingModule } from '@angular/router/testing'
-import { AUTH_SERVICE, MockAuthModule, PortalCoreModule } from '@onecx/portal-integration-angular'
+import { ActivatedRoute } from '@angular/router'
+import { PortalCoreModule } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AppComponent } from './app.component'
 
 describe('AppComponent', () => {
+  const mockActivatedRoute = {}
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        RouterTestingModule,
         PortalCoreModule.forRoot('test'),
-        HttpClientTestingModule,
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../assets/i18n/en.json')).withTranslations(
           'de',
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../assets/i18n/de.json')
         )
       ],
-      providers: [{ provide: AUTH_SERVICE, useClass: MockAuthModule }]
+      providers: [provideHttpClientTesting(), { provide: ActivatedRoute, useValue: mockActivatedRoute }]
     }).compileComponents()
   })
 
