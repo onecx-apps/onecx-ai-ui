@@ -1,6 +1,79 @@
----
 openapi: 3.0.3
 info:
   title: onecx-ai-ui-bff
   version: '1.0'
-paths: {}
+paths:
+  /aiKnowledgeVectorDb/search:
+    post:
+      operationId: searchAiKnowledgeVectorDbs
+      tags:
+        - AiKnowledgeVectorDbBffService
+      description: This operation performs a search based on provided search criteria.
+        Search for aiKnowledgeVectorDb results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAiKnowledgeVectorDbRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAiKnowledgeVectorDbResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+components:
+  schemas:
+    AiKnowledgeVectorDb:
+      type: object
+      required:
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        vdb:
+          type: string
+        vdbCollection:
+          type: string
+    SearchAiKnowledgeVectorDbRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+          maximum: 2500
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        vdb:
+          type: string
+        vdbCollection:
+          type: string
+    SearchAiKnowledgeVectorDbResponse:
+      type: object
+      required:
+        - results
+        - totalNumberOfResults
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiKnowledgeVectorDb'
+        totalNumberOfResults:
+          type: integer
+          format: int32
+          description: Total number of results on the server.
