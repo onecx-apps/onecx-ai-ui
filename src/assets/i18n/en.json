@@ -55,7 +55,7 @@
       "DESCRIPTION": "Description",
       "VDB": "Vdb",
       "VDBCOLLECTION": "VdbCollection",
-      "APPID": "App ID"
+      "AICONTEXT": "AI Context"
     }
   },
   "AI_KNOWLEDGE_VECTOR_DB_SEARCH": {

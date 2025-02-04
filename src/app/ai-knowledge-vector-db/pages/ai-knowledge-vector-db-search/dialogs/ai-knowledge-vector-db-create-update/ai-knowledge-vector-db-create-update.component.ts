@@ -32,7 +32,7 @@ export class AIKnowledgeVectorDbCreateUpdateComponent
     this.formGroup = new FormGroup({
       name: new FormControl(null, [Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.maxLength(255)]),
-      aiContext: new FormControl(null, [Validators.maxLength(255)])
+      appId: new FormControl(null, [Validators.maxLength(255)])
     })
     this.formGroup.statusChanges
       .pipe(
@@ -55,7 +55,7 @@ export class AIKnowledgeVectorDbCreateUpdateComponent
       this.formGroup.patchValue({
         name: this.vm.itemToEdit.name,
         description: this.vm.itemToEdit.description,
-        aiContext: this.vm.itemToEdit.aiContext?.appId
+        appId: this.vm.itemToEdit.aiContext?.appId
       })
     }
   }

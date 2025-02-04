@@ -79,8 +79,10 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         PortalCoreModule,
         LetDirective,
         ReactiveFormsModule,
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../assets/i18n/de.json')
         )
       ],
@@ -168,7 +170,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       description: 'Test description',
       vdb: 'Test vdb',
       vdbCollection: 'Test vdb collection',
-      aiContext: 'Test AppID'
+      aiContext: 'Test AppIDTest name'
     })
   })
 })

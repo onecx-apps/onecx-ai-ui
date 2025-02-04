@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Action, BreadcrumbService } from '@onecx/portal-integration-angular'
 import { map, Observable } from 'rxjs'
@@ -77,7 +77,7 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
       const appId = aIKnVec.details?.aiContext.appId ?? ''
 
       this.formGroup.patchValue({
-        name: aIKnVec.details?.name,
+        name: name,
         description: aIKnVec.details?.description,
         vdb: aIKnVec.details?.vdb,
         vdbCollection: aIKnVec.details?.vdbCollection,

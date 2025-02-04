@@ -292,6 +292,7 @@ export class AIKnowledgeVectorDbSearchEffects {
     )
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearch(searchCriteria: Record<string, any>) {
     return this.aIKnowledgeVectorDbService
       .searchAIKnowledgeVectorDbs({

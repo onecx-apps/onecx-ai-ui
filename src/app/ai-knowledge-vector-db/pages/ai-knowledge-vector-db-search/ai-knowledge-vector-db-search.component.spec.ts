@@ -106,8 +106,10 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
         LetDirective,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../assets/i18n/de.json')
         ),
         NoopAnimationsModule
