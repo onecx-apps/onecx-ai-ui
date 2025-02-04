@@ -13,10 +13,10 @@ import { AIContext } from './aIContext';
 export interface AIKnowledgeVectorDb { 
     modificationCount?: number;
     id: string;
-    name?: string;
-    description?: string;
-    vdb?: string;
-    vdbCollection?: string;
-    aiContext?: AIContext;
+    name: string;
+    description: string;
+    vdb: string;
+    vdbCollection: string;
+    aiContext: AIContext;
 }
 

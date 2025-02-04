@@ -73,13 +73,17 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
     )
 
     this.viewModel$.subscribe((aIKnVec) => {
+      const name = aIKnVec.details?.name ?? ''
+      const appId = aIKnVec.details?.aiContext.appId ?? ''
+
       this.formGroup.patchValue({
         name: aIKnVec.details?.name,
         description: aIKnVec.details?.description,
         vdb: aIKnVec.details?.vdb,
         vdbCollection: aIKnVec.details?.vdbCollection,
-        aiContext: aIKnVec.details?.aiContext
-      })})
+        aiContext: appId + name
+      })
+    })
 
     this.breadcrumbService.setItems([
       {
@@ -90,12 +94,11 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
     ])
   }
 
-//TODO check
-  edit( id : string ) {
+  edit(id : string ) {
     this.store.dispatch(AIKnowledgeVectorDbSearchActions.editAiKnowledgeVectorDbButtonClicked({ id }))
   }
 
   delete(id : string ) {
       this.store.dispatch(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbButtonClicked({ id }))
-    }
+  }
 }

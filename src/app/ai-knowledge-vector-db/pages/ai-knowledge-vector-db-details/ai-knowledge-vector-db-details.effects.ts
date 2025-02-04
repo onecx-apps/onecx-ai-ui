@@ -57,24 +57,6 @@ export class AIKnowledgeVectorDbDetailsEffects {
     )
   })
 
-  // deleteAIKnowledgeVectorDbById$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsDeleted),
-  //     switchMap(({id}) =>
-  //       this.aIKnowledgeVectorDbService.deleteAIKnowledgeVectorDb(id ?? '').pipe(
-  //         map(() => AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsDeletedSucceeded()),
-  //       )
-  //     ),
-  //     catchError((error) => 
-  //       of(
-  //         AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsDeletedFailed({
-  //           error
-  //         })
-  //       )
-  //     )
-  //   )
-  // })
-
   errorMessages: { action: Action; key: string }[] = [
     {
       action: AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsLoadingFailed,

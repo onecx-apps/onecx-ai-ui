@@ -85,8 +85,8 @@
     "CRITERIA": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "VDB": "vdb",
-      "VDBCOLLECTION": "vdbCollection"
+      "VDB": "Vdb",
+      "VDBCOLLECTION": "VdbCollection"
     },
     "COLUMNS": {
       "NAME": "Name",
