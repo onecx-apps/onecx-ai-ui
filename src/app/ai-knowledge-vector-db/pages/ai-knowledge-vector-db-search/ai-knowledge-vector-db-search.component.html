@@ -1,69 +1,69 @@
 <ocx-portal-page
-  
+  permission="AI_KNOWLEDGE_VECTOR_DB#SEARCH"
   [helpArticleId]="'AI_KNOWLEDGE_VECTOR_DB_SEARCH.HELP_ARTICLE_ID' | translate"
   *ngrxLet="viewModel$; let vm"
 >
   <ocx-search-header
     [headline]="'AI_KNOWLEDGE_VECTOR_DB_SEARCH.HEADER' | translate"
     [subheader]="'AI_KNOWLEDGE_VECTOR_DB_SEARCH.SUB_HEADER' | translate"
-    (searched)="search(aiKnowledgeVectorDbSearchFormGroup)"
+    (searched)="search(aIKnowledgeVectorDbSearchFormGroup)"
     (resetted)="resetSearch()"
     [manualBreadcrumbs]="true"
     [actions]="(headerActions$ | async) ?? []"
     (viewModeChanged)="viewModeChanged($event)"
   >
-    <form [formGroup]="aiKnowledgeVectorDbSearchFormGroup">
+    <form [formGroup]="aIKnowledgeVectorDbSearchFormGroup">
       <div class="grid mt-0 p-fluid">
         <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
-            id="name"
-            pInputText
-            type="text"
-            formControlName="name"
-            class="p-inputtext p-component"
-            [ngModel]="vm.searchCriteria.name"
-          />
-          <label for="name">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.NAME' | translate }}</label>
+              id="name"
+              pInputText
+              type="text"
+              formControlName="name"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.name"
+            />
+            <label for="name">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.NAME' | translate }}</label>
           </span>
         </div>
         <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
-            id="description"
-            pInputText
-            type="text"
-            formControlName="description"
-            class="p-inputtext p-component"
-            [ngModel]="vm.searchCriteria.description"
-          />
-          <label for="description">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.DESCRIPTION' | translate }}</label>
+              id="description"
+              pInputText
+              type="text"
+              formControlName="description"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.description"
+            />
+            <label for="description">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.DESCRIPTION' | translate }}</label>
           </span>
         </div>
         <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
-            id="vdb"
-            pInputText
-            type="text"
-            formControlName="vdb"
-            class="p-inputtext p-component"
-            [ngModel]="vm.searchCriteria.vdb"
-          />
-          <label for="vdb">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.VDB' | translate }}</label>
+              id="vdb"
+              pInputText
+              type="text"
+              formControlName="vdb"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.vdb"
+            />
+            <label for="vdb">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.VDB' | translate }}</label>
           </span>
         </div>
         <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
-            id="vdbCollection"
-            pInputText
-            type="text"
-            formControlName="vdbCollection"
-            class="p-inputtext p-component"
-            [ngModel]="vm.searchCriteria.vdbCollection"
-          />
-          <label for="vdbCollection">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.VDBCOLLECTION' | translate }}</label>
+              id="vdbCollection"
+              pInputText
+              type="text"
+              formControlName="vdbCollection"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.vdbCollection"
+            />
+            <label for="vdbCollection">{{ 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.CRITERIA.VDBCOLLECTION' | translate }}</label>
           </span>
         </div>
       </div>
@@ -72,6 +72,12 @@
   <ocx-content-container layout="horizontal">
     <ocx-content class="w-full">
       <ocx-interactive-data-view
+        (deleteItem)="delete($event)"
+        deletePermission="AI_KNOWLEDGE_VECTOR_DB#DELETE"
+        (editItem)="edit($event)"
+        editPermission="AI_KNOWLEDGE_VECTOR_DB#EDIT"
+        (viewItem)="details($event)"
+        viewPermission="AI_KNOWLEDGE_VECTOR_DB#VIEW"
         [data]="vm.results"
         [columns]="vm.columns"
         [listGridPaginator]="false"

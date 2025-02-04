@@ -9,24 +9,38 @@ import {
   filterOutOnlyQueryParamsChanged,
   filterOutQueryParamsHaveNotChanged
 } from '@onecx/ngrx-accelerator'
-import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
-import equal from 'fast-deep-equal'
-import { catchError, map, of, switchMap, tap } from 'rxjs'
-import { AiKnowledgeVectorDbBffService } from '../../../shared/generated'
-import { AiKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
-import { AiKnowledgeVectorDbSearchComponent } from './ai-knowledge-vector-db-search.component'
-import { aiKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
 import {
-  aiKnowledgeVectorDbSearchSelectors,
-  selectAiKnowledgeVectorDbSearchViewModel
+  DialogState,
+  ExportDataService,
+  PortalDialogService,
+  PortalMessageService
+} from '@onecx/portal-integration-angular'
+import equal from 'fast-deep-equal'
+import { PrimeIcons } from 'primeng/api'
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
+import {
+  AIKnowledgeVectorDb,
+  CreateAIKnowledgeVectorDb,
+  UpdateAIKnowledgeVectorDb
+} from 'src/app/shared/generated'
+import { selectUrl } from 'src/app/shared/selectors/router.selectors'
+import { AIKnowledgeVectorDbBffService } from '../../../shared/generated'
+import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
+import { AIKnowledgeVectorDbSearchComponent } from './ai-knowledge-vector-db-search.component'
+import { aIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
+import {
+  aIKnowledgeVectorDbSearchSelectors,
+  selectAIKnowledgeVectorDbSearchViewModel
 } from './ai-knowledge-vector-db-search.selectors'
+import { AIKnowledgeVectorDbCreateUpdateComponent } from './dialogs/ai-knowledge-vector-db-create-update/ai-knowledge-vector-db-create-update.component'
 
 @Injectable()
-export class AiKnowledgeVectorDbSearchEffects {
+export class AIKnowledgeVectorDbSearchEffects {
   constructor(
+    private portalDialogService: PortalDialogService,
     private actions$: Actions,
     @SkipSelf() private route: ActivatedRoute,
-    private aiKnowledgeVectorDbService: AiKnowledgeVectorDbBffService,
+    private aIKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
@@ -37,15 +51,15 @@ export class AiKnowledgeVectorDbSearchEffects {
     () => {
       return this.actions$.pipe(
         ofType(
-          AiKnowledgeVectorDbSearchActions.searchButtonClicked,
-          AiKnowledgeVectorDbSearchActions.resetButtonClicked
+          AIKnowledgeVectorDbSearchActions.searchButtonClicked,
+          AIKnowledgeVectorDbSearchActions.resetButtonClicked
         ),
         concatLatestFrom(() => [
-          this.store.select(aiKnowledgeVectorDbSearchSelectors.selectCriteria),
+          this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria),
           this.route.queryParams
         ]),
         tap(([, criteria, queryParams]) => {
-          const results = aiKnowledgeVectorDbSearchCriteriasSchema.safeParse(queryParams)
+          const results = aIKnowledgeVectorDbSearchCriteriasSchema.safeParse(queryParams)
           if (!results.success || !equal(criteria, results.data)) {
             const params = {
               ...criteria
@@ -65,19 +79,222 @@ export class AiKnowledgeVectorDbSearchEffects {
     { dispatch: false }
   )
 
+  detailsButtonClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AIKnowledgeVectorDbSearchActions.detailsButtonClicked),
+        concatLatestFrom(() => this.store.select(selectUrl)),
+        tap(([action, currentUrl]) => {
+          const urlTree = this.router.parseUrl(currentUrl)
+          urlTree.queryParams = {}
+          urlTree.fragment = null
+          this.router.navigate([urlTree.toString(), 'details', action.id])
+        })
+      )
+    },
+    { dispatch: false }
+  )
+
+  refreshSearchAfterCreateUpdate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbSucceeded,
+        AIKnowledgeVectorDbSearchActions.updateAiKnowledgeVectorDbSucceeded
+      ),
+      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
+    )
+  })
+
+  editButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AIKnowledgeVectorDbSearchActions.editAiKnowledgeVectorDbButtonClicked),
+      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectResults)),
+      map(([action, results]) => {
+        return results.find((item) => item.id == action.id)
+      }),
+      mergeMap((itemToEdit) => {
+        return this.portalDialogService.openDialog<AIKnowledgeVectorDb | undefined>(
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.HEADER',
+          {
+            type: AIKnowledgeVectorDbCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit
+              }
+            }
+          },
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.FORM.SAVE',
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AIKnowledgeVectorDbSearchActions.updateAiKnowledgeVectorDbCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const itemToEditId = dialogResult.result.id
+        const itemToEdit = {
+          dataObject: dialogResult.result
+        } as UpdateAIKnowledgeVectorDb
+        return this.aIKnowledgeVectorDbService.updateAIKnowledgeVectorDb(itemToEditId, itemToEdit).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.SUCCESS'
+            })
+            return AIKnowledgeVectorDbSearchActions.updateAiKnowledgeVectorDbSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.ERROR'
+        })
+        return of(
+          AIKnowledgeVectorDbSearchActions.updateAiKnowledgeVectorDbFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
+  createButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbButtonClicked),
+      switchMap(() => {
+        return this.portalDialogService.openDialog<AIKnowledgeVectorDb | undefined>(
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.HEADER',
+          {
+            type: AIKnowledgeVectorDbCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit: {}
+              }
+            }
+          },
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.FORM.SAVE',
+          'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const toCreateItem = {
+          dataObject: dialogResult.result
+        } as CreateAIKnowledgeVectorDb
+        return this.aIKnowledgeVectorDbService.createAIKnowledgeVectorDb(toCreateItem).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.SUCCESS'
+            })
+            return AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.ERROR'
+        })
+        return of(
+          AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
+  refreshSearchAfterDelete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbSucceeded),
+      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
+    )
+  })
+
+  deleteButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbButtonClicked),
+      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectResults)),
+      map(([action, results]) => {
+        return results.find((item) => item.id == action.id)
+      }),
+      mergeMap((itemToDelete) => {
+        return this.portalDialogService
+          .openDialog<unknown>(
+            'AI_KNOWLEDGE_VECTOR_DB_DELETE.HEADER',
+            'AI_KNOWLEDGE_VECTOR_DB_DELETE.MESSAGE',
+            {
+              key: 'AI_KNOWLEDGE_VECTOR_DB_DELETE.CONFIRM',
+              icon: PrimeIcons.CHECK
+            },
+            {
+              key: 'AI_KNOWLEDGE_VECTOR_DB_DELETE.CANCEL',
+              icon: PrimeIcons.TIMES
+            }
+          )
+          .pipe(
+            map((state): [DialogState<unknown>, AIKnowledgeVectorDb | undefined] => {
+              return [state, itemToDelete]
+            })
+          )
+      }),
+      switchMap(([dialogResult, itemToDelete]) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbCancelled())
+        }
+        if (!itemToDelete) {
+          throw new Error('Item to delete not found!')
+        }
+
+        return this.aIKnowledgeVectorDbService.deleteAIKnowledgeVectorDb(itemToDelete.id).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_DELETE.SUCCESS'
+            })
+            return AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_DELETE.ERROR'
+        })
+        return of(
+          AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
   searchByUrl$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      filterForNavigatedTo(this.router, AiKnowledgeVectorDbSearchComponent),
-      filterOutQueryParamsHaveNotChanged(this.router, aiKnowledgeVectorDbSearchCriteriasSchema, false),
-      concatLatestFrom(() => this.store.select(aiKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      filterForNavigatedTo(this.router, AIKnowledgeVectorDbSearchComponent),
+      filterOutQueryParamsHaveNotChanged(this.router, aIKnowledgeVectorDbSearchCriteriasSchema, false),
+      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
       switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
     )
   })
 
   performSearch(searchCriteria: Record<string, any>) {
-    return this.aiKnowledgeVectorDbService
-      .searchAiKnowledgeVectorDbs({
+    return this.aIKnowledgeVectorDbService
+      .searchAIKnowledgeVectorDbs({
         ...Object.entries(searchCriteria).reduce(
           (acc, [key, value]) => ({
             ...acc,
@@ -88,14 +305,14 @@ export class AiKnowledgeVectorDbSearchEffects {
       })
       .pipe(
         map(({ results, totalNumberOfResults }) =>
-          AiKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived({
+          AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived({
             results,
             totalNumberOfResults
           })
         ),
         catchError((error) =>
           of(
-            AiKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed({
+            AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed({
               error
             })
           )
@@ -106,11 +323,11 @@ export class AiKnowledgeVectorDbSearchEffects {
   rehydrateChartVisibility$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      filterForNavigatedTo(this.router, AiKnowledgeVectorDbSearchComponent),
+      filterForNavigatedTo(this.router, AIKnowledgeVectorDbSearchComponent),
       filterOutOnlyQueryParamsChanged(this.router),
       map(() =>
-        AiKnowledgeVectorDbSearchActions.chartVisibilityRehydrated({
-          visible: localStorage.getItem('aiKnowledgeVectorDbChartVisibility') === 'true'
+        AIKnowledgeVectorDbSearchActions.chartVisibilityRehydrated({
+          visible: localStorage.getItem('aIKnowledgeVectorDbChartVisibility') === 'true'
         })
       )
     )
@@ -119,10 +336,10 @@ export class AiKnowledgeVectorDbSearchEffects {
   saveChartVisibility$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AiKnowledgeVectorDbSearchActions.chartVisibilityToggled),
-        concatLatestFrom(() => this.store.select(aiKnowledgeVectorDbSearchSelectors.selectChartVisible)),
+        ofType(AIKnowledgeVectorDbSearchActions.chartVisibilityToggled),
+        concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectChartVisible)),
         tap(([, chartVisible]) => {
-          localStorage.setItem('aiKnowledgeVectorDbChartVisibility', String(chartVisible))
+          localStorage.setItem('aIKnowledgeVectorDbChartVisibility', String(chartVisible))
         })
       )
     },
@@ -132,10 +349,10 @@ export class AiKnowledgeVectorDbSearchEffects {
   exportData$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AiKnowledgeVectorDbSearchActions.chartVisibilityToggled),
-        concatLatestFrom(() => this.store.select(selectAiKnowledgeVectorDbSearchViewModel)),
+        ofType(AIKnowledgeVectorDbSearchActions.chartVisibilityToggled),
+        concatLatestFrom(() => this.store.select(selectAIKnowledgeVectorDbSearchViewModel)),
         map(([, viewModel]) => {
-          this.exportDataService.exportCsv(viewModel.displayedColumns, viewModel.results, 'AiKnowledgeVectorDb.csv')
+          this.exportDataService.exportCsv(viewModel.displayedColumns, viewModel.results, 'AIKnowledgeVectorDb.csv')
         })
       )
     },
@@ -144,7 +361,7 @@ export class AiKnowledgeVectorDbSearchEffects {
 
   errorMessages: { action: Action; key: string }[] = [
     {
-      action: AiKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed,
+      action: AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed,
       key: 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     }
   ]

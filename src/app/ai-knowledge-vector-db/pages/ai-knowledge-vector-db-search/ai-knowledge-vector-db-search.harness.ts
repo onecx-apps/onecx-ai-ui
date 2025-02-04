@@ -5,7 +5,7 @@ import {
   SearchHeaderHarness
 } from '@onecx/angular-accelerator/testing'
 
-export class AiKnowledgeVectorDbSearchHarness extends ComponentHarness {
+export class AIKnowledgeVectorDbSearchHarness extends ComponentHarness {
   static hostSelector = 'app-ai-knowledge-vector-db-search'
 
   getHeader = this.locatorFor(SearchHeaderHarness)

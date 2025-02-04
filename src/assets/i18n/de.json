@@ -1,7 +1,66 @@
 {
+  "AI_KNOWLEDGE_VECTOR_DB_DELETE": {
+    "HEADER": "AIKnowledgeVectorDb löschen",
+    "MESSAGE": "Bitte bestätigen, dass diese AIKnowledgeVectorDb gelöscht werden soll.",
+    "CONFIRM": "Bestätigen",
+    "CANCEL": "Abbrechen",
+    "SUCCESS": "AIKnowledgeVectorDb erfolgreich gelöscht",
+    "ERROR": "Konnte AIKnowledgeVectorDb nicht löschen"
+  },
+  "AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE": {
+    "ACTION": {
+      "CREATE": "Erstellen"
+    },
+    "CREATE": {
+      "HEADER": "Neues AIKnowledgeVectorDb erstellen",
+      "SUCCESS": "Erstellung erfolgreich",
+      "ERROR": "Erstellung fehlgeschlagen",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    },
+    "UPDATE": {
+      "SUCCESS": "Aktualisierung erfolgreich",
+      "FAILED": "ACTION: Add Translation",
+      "ERROR": "Aktualisierung fehlgeschlagen",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "AIKnowledgeVectorDb bearbeiten"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "APPID": "App ID"
+    }
+  },
+  "AI_KNOWLEDGE_VECTOR_DB_DETAILS": {
+    "HELP_ARTICLE_ID": "Hilfeartikel",
+    "BREADCRUMB": "Details",
+    "HEADER": "AIKnowledgeVectorDb Details",
+    "SUB_HEADER": "Anzeigen von AIKnowledgeVectorDb Details",
+    "ERROR_MESSAGES": {
+      "DETAILS_LOADING_FAILED": "Details konnten nicht geladen werden."
+    },
+    "GENERAL": {
+      "BACK": "Zurück",
+      "MORE": "Mehr",
+      "EDIT": "Bearbeiten",
+      "DELETE": "Löschen"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "VDB": "Vdb",
+      "VDBCOLLECTION": "VdbCollection",
+      "APPID": "App ID"
+    }
+  },
   "AI_KNOWLEDGE_VECTOR_DB_SEARCH": {
-    "HEADER": "AiKnowledgeVectorDb Suche",
-    "SUB_HEADER": "Suchen und Anzeigen von AiKnowledgeVectorDb",
+    "HEADER": "AIKnowledgeVectorDb Suche",
+    "SUB_HEADER": "Suchen und Anzeigen von AIKnowledgeVectorDb",
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "EMPTY_RESULTS": "Keine Ergebnisse.",
     "BREADCRUMB": "Suche",
@@ -26,8 +85,14 @@
     "CRITERIA": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "VDB": "vdb",
-      "VDBCOLLECTION": "vdbCollection"
+      "VDB": "Vdb",
+      "VDBCOLLECTION": "VdbCollection"
+    },
+    "COLUMNS": {
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "VDB": "Vdb",
+      "VDBCOLLECTION": "VdbCollection"
     },
     "PREDEFINED_GROUP": {
       "DEFAULT": "Standard",

@@ -1,17 +1,45 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
 import { DataTableColumn } from '@onecx/angular-accelerator'
-import { AiKnowledgeVectorDb } from '../../../shared/generated'
-import { AiKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDb } from '../../../shared/generated'
+import { AIKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
 
-export const AiKnowledgeVectorDbSearchActions = createActionGroup({
-  source: 'AiKnowledgeVectorDbSearch',
+export const AIKnowledgeVectorDbSearchActions = createActionGroup({
+  source: 'AIKnowledgeVectorDbSearch',
   events: {
+    'Delete ai knowledge vector db button clicked': props<{
+      id: number | string
+    }>(),
+    'Delete ai knowledge vector db cancelled': emptyProps(),
+    'Delete ai knowledge vector db succeeded': emptyProps(),
+    'Delete ai knowledge vector db failed': props<{
+      error: string | null
+    }>(),
+
+    'Create ai knowledge vector db button clicked': emptyProps(),
+    'Edit ai knowledge vector db button clicked': props<{
+      id: number | string
+    }>(),
+    'Create ai knowledge vector db cancelled': emptyProps(),
+    'Update ai knowledge vector db cancelled': emptyProps(),
+    'Create ai knowledge vector db succeeded': emptyProps(),
+    'Update ai knowledge vector db succeeded': emptyProps(),
+    'Create ai knowledge vector db failed': props<{
+      error: string | null
+    }>(),
+    'Update ai knowledge vector db failed': props<{
+      error: string | null
+    }>(),
+
+    'Details button clicked': props<{
+      id: number | string
+    }>(),
+
     'Search button clicked': props<{
-      searchCriteria: AiKnowledgeVectorDbSearchCriteria
+      searchCriteria: AIKnowledgeVectorDbSearchCriteria
     }>(),
     'Reset button clicked': emptyProps(),
     'ai knowledge vector db search results received': props<{
-      results: AiKnowledgeVectorDb[]
+      results: AIKnowledgeVectorDb[]
       totalNumberOfResults: number
     }>(),
     'ai knowledge vector db search results loading failed': props<{ error: string | null }>(),

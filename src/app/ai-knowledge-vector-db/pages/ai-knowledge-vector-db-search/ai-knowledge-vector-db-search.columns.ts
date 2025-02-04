@@ -1,6 +1,6 @@
 import { ColumnType, DataTableColumn } from '@onecx/angular-accelerator'
 
-export const aiKnowledgeVectorDbSearchColumns: DataTableColumn[] = [
+export const aIKnowledgeVectorDbSearchColumns: DataTableColumn[] = [
     {
         columnType: ColumnType.STRING,
         id: 'name',

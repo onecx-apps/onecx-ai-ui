@@ -9,12 +9,9 @@
  */
 
 
-export interface AiKnowledgeVectorDb { 
-    modificationCount?: number;
-    id: string;
+export interface CreateAIKnowledgeVectorDb { 
     name?: string;
     description?: string;
-    vdb?: string;
-    vdbCollection?: string;
+    appId?: string;
 }
 

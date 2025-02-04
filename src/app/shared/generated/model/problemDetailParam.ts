@@ -9,12 +9,8 @@
  */
 
 
-export interface SearchAiKnowledgeVectorDbRequest { 
-    limit?: number;
-    id?: number;
-    name?: string;
-    description?: string;
-    vdb?: string;
-    vdbCollection?: string;
+export interface ProblemDetailParam { 
+    key?: string;
+    value?: string;
 }
 

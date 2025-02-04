@@ -1,12 +1,12 @@
 import { routerNavigatedAction, RouterNavigatedAction } from '@ngrx/router-store'
 import { createReducer, on } from '@ngrx/store'
-import { AiKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
-import { aiKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
-import { aiKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
-import { AiKnowledgeVectorDbSearchState } from './ai-knowledge-vector-db-search.state'
+import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
+import { aIKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
+import { aIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDbSearchState } from './ai-knowledge-vector-db-search.state'
 
-export const initialState: AiKnowledgeVectorDbSearchState = {
-  columns: aiKnowledgeVectorDbSearchColumns,
+export const initialState: AIKnowledgeVectorDbSearchState = {
+  columns: aIKnowledgeVectorDbSearchColumns,
   results: [],
   displayedColumns: null,
   viewMode: 'basic',
@@ -15,10 +15,10 @@ export const initialState: AiKnowledgeVectorDbSearchState = {
   criteria: {}
 }
 
-export const aiKnowledgeVectorDbSearchReducer = createReducer(
+export const aIKnowledgeVectorDbSearchReducer = createReducer(
   initialState,
-  on(routerNavigatedAction, (state: AiKnowledgeVectorDbSearchState, action: RouterNavigatedAction) => {
-    const results = aiKnowledgeVectorDbSearchCriteriasSchema.safeParse(action.payload.routerState.root.queryParams)
+  on(routerNavigatedAction, (state: AIKnowledgeVectorDbSearchState, action: RouterNavigatedAction) => {
+    const results = aIKnowledgeVectorDbSearchCriteriasSchema.safeParse(action.payload.routerState.root.queryParams)
     if (results.success) {
       return {
         ...state,
@@ -29,59 +29,59 @@ export const aiKnowledgeVectorDbSearchReducer = createReducer(
     return state
   }),
   on(
-    AiKnowledgeVectorDbSearchActions.resetButtonClicked,
-    (state: AiKnowledgeVectorDbSearchState): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.resetButtonClicked,
+    (state: AIKnowledgeVectorDbSearchState): AIKnowledgeVectorDbSearchState => ({
       ...state,
       results: initialState.results,
       criteria: {}
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.searchButtonClicked,
-    (state: AiKnowledgeVectorDbSearchState, { searchCriteria }): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.searchButtonClicked,
+    (state: AIKnowledgeVectorDbSearchState, { searchCriteria }): AIKnowledgeVectorDbSearchState => ({
       ...state,
       searchLoadingIndicator: true,
       criteria: searchCriteria
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived,
-    (state: AiKnowledgeVectorDbSearchState, { results }): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived,
+    (state: AIKnowledgeVectorDbSearchState, { results }): AIKnowledgeVectorDbSearchState => ({
       ...state,
       results
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed,
-    (state: AiKnowledgeVectorDbSearchState): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed,
+    (state: AIKnowledgeVectorDbSearchState): AIKnowledgeVectorDbSearchState => ({
       ...state,
       results: []
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.chartVisibilityRehydrated,
-    (state: AiKnowledgeVectorDbSearchState, { visible }): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.chartVisibilityRehydrated,
+    (state: AIKnowledgeVectorDbSearchState, { visible }): AIKnowledgeVectorDbSearchState => ({
       ...state,
       chartVisible: visible
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.chartVisibilityToggled,
-    (state: AiKnowledgeVectorDbSearchState): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.chartVisibilityToggled,
+    (state: AIKnowledgeVectorDbSearchState): AIKnowledgeVectorDbSearchState => ({
       ...state,
       chartVisible: !state.chartVisible
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.viewModeChanged,
-    (state: AiKnowledgeVectorDbSearchState, { viewMode }): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.viewModeChanged,
+    (state: AIKnowledgeVectorDbSearchState, { viewMode }): AIKnowledgeVectorDbSearchState => ({
       ...state,
       viewMode: viewMode
     })
   ),
   on(
-    AiKnowledgeVectorDbSearchActions.displayedColumnsChanged,
-    (state: AiKnowledgeVectorDbSearchState, { displayedColumns }): AiKnowledgeVectorDbSearchState => ({
+    AIKnowledgeVectorDbSearchActions.displayedColumnsChanged,
+    (state: AIKnowledgeVectorDbSearchState, { displayedColumns }): AIKnowledgeVectorDbSearchState => ({
       ...state,
       displayedColumns: displayedColumns.map((v) => v.id)
     })

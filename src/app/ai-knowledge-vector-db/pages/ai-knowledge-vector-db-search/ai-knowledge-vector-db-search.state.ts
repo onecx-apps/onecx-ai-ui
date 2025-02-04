@@ -1,13 +1,13 @@
 import { DataTableColumn } from '@onecx/portal-integration-angular'
-import { AiKnowledgeVectorDb } from 'src/app/shared/generated'
-import { AiKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDb } from 'src/app/shared/generated'
+import { AIKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
 
-export interface AiKnowledgeVectorDbSearchState {
+export interface AIKnowledgeVectorDbSearchState {
   columns: DataTableColumn[]
-  results: AiKnowledgeVectorDb[]
+  results: AIKnowledgeVectorDb[]
   displayedColumns: string[] | null
   viewMode: 'basic' | 'advanced'
   chartVisible: boolean
   searchLoadingIndicator: boolean
-  criteria: AiKnowledgeVectorDbSearchCriteria
+  criteria: AIKnowledgeVectorDbSearchCriteria
 }

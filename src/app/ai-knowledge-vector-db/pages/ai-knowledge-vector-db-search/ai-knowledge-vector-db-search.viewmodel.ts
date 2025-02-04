@@ -1,9 +1,9 @@
 import { DataTableColumn, RowListGridData } from '@onecx/portal-integration-angular'
-import { AiKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDbSearchCriteria } from './ai-knowledge-vector-db-search.parameters'
 
-export interface AiKnowledgeVectorDbSearchViewModel {
+export interface AIKnowledgeVectorDbSearchViewModel {
   columns: DataTableColumn[]
-  searchCriteria: AiKnowledgeVectorDbSearchCriteria
+  searchCriteria: AIKnowledgeVectorDbSearchCriteria
   results: RowListGridData[]
   displayedColumns: DataTableColumn[]
   viewMode: 'basic' | 'advanced'

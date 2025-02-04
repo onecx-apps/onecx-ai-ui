@@ -1,13 +1,13 @@
-import { SearchAiKnowledgeVectorDbRequest } from 'src/app/shared/generated'
+import { SearchAIKnowledgeVectorDbRequest } from 'src/app/shared/generated'
 import { z, ZodTypeAny } from 'zod'
 
-export const aiKnowledgeVectorDbSearchCriteriasSchema = z.object({
+export const aIKnowledgeVectorDbSearchCriteriasSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
   vdb: z.string().optional(),
   vdbCollection: z.string().optional(),
   id: z.number().optional(),
   limit: z.number().optional()
-} satisfies Partial<Record<keyof SearchAiKnowledgeVectorDbRequest, ZodTypeAny>>)
+} satisfies Partial<Record<keyof SearchAIKnowledgeVectorDbRequest, ZodTypeAny>>)
 
-export type AiKnowledgeVectorDbSearchCriteria = z.infer<typeof aiKnowledgeVectorDbSearchCriteriasSchema>
+export type AIKnowledgeVectorDbSearchCriteria = z.infer<typeof aIKnowledgeVectorDbSearchCriteriasSchema>

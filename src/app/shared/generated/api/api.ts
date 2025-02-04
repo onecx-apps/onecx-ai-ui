@@ -1,3 +1,3 @@
-export * from './aiKnowledgeVectorDbBffService.service';
-import { AiKnowledgeVectorDbBffService } from './aiKnowledgeVectorDbBffService.service';
-export const APIS = [AiKnowledgeVectorDbBffService];
+export * from './aIKnowledgeVectorDbBffService.service';
+import { AIKnowledgeVectorDbBffService } from './aIKnowledgeVectorDbBffService.service';
+export const APIS = [AIKnowledgeVectorDbBffService];

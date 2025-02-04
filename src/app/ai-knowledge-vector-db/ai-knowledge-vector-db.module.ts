@@ -6,17 +6,25 @@ import { LetDirective } from '@ngrx/component'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { TranslateModule } from '@ngx-translate/core'
-import { PortalCoreModule } from '@onecx/portal-integration-angular'
+import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
+import { PortalCoreModule, providePortalDialogService } from '@onecx/portal-integration-angular'
 import { CalendarModule } from 'primeng/calendar'
 import { SharedModule } from '../shared/shared.module'
-import { aiKnowledgeVectorDbFeature } from './ai-knowledge-vector-db.reducers'
+import { aIKnowledgeVectorDbFeature } from './ai-knowledge-vector-db.reducers'
 import { routes } from './ai-knowledge-vector-db.routes'
-import { AiKnowledgeVectorDbSearchComponent } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.component'
-import { AiKnowledgeVectorDbSearchEffects } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.effects'
-import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
+import { AIKnowledgeVectorDbDetailsComponent } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.component'
+import { AIKnowledgeVectorDbDetailsEffects } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.effects'
+import { AIKnowledgeVectorDbSearchComponent } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.component'
+import { AIKnowledgeVectorDbSearchEffects } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.effects'
+import { AIKnowledgeVectorDbCreateUpdateComponent } from './pages/ai-knowledge-vector-db-search/dialogs/ai-knowledge-vector-db-create-update/ai-knowledge-vector-db-create-update.component'
 
 @NgModule({
-  declarations: [AiKnowledgeVectorDbSearchComponent],
+  providers: [providePortalDialogService()],
+  declarations: [
+    AIKnowledgeVectorDbCreateUpdateComponent,
+    AIKnowledgeVectorDbDetailsComponent,
+    AIKnowledgeVectorDbSearchComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
@@ -27,9 +35,9 @@ import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
-    StoreModule.forFeature(aiKnowledgeVectorDbFeature),
-    EffectsModule.forFeature([AiKnowledgeVectorDbSearchEffects]),
+    StoreModule.forFeature(aIKnowledgeVectorDbFeature),
+    EffectsModule.forFeature([AIKnowledgeVectorDbDetailsEffects, AIKnowledgeVectorDbSearchEffects]),
     TranslateModule
   ]
 })
-export class AiKnowledgeVectorDbModule {}
+export class AIKnowledgeVectorDbModule {}

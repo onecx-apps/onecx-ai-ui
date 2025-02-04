@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AiKnowledgeVectorDb } from './aiKnowledgeVectorDb';
+import { AIKnowledgeVectorDb } from './aIKnowledgeVectorDb';
 
 
-export interface SearchAiKnowledgeVectorDbResponse { 
-    results: Array<AiKnowledgeVectorDb>;
+export interface SearchAIKnowledgeVectorDbResponse { 
+    results: Array<AIKnowledgeVectorDb>;
     /**
      * Total number of results on the server.
      */
