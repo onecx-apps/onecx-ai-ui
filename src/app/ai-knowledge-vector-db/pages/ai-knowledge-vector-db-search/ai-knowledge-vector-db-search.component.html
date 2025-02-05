@@ -6,13 +6,13 @@
   <ocx-search-header
     [headline]="'AI_KNOWLEDGE_VECTOR_DB_SEARCH.HEADER' | translate"
     [subheader]="'AI_KNOWLEDGE_VECTOR_DB_SEARCH.SUB_HEADER' | translate"
-    (searched)="search(aIKnowledgeVectorDbSearchFormGroup)"
+    (searched)="search(AIKnowledgeVectorDbSearchFormGroup)"
     (resetted)="resetSearch()"
     [manualBreadcrumbs]="true"
     [actions]="(headerActions$ | async) ?? []"
     (viewModeChanged)="viewModeChanged($event)"
   >
-    <form [formGroup]="aIKnowledgeVectorDbSearchFormGroup">
+    <form [formGroup]="AIKnowledgeVectorDbSearchFormGroup">
       <div class="grid mt-0 p-fluid">
         <div class="col-12 md:col-3">
           <span class="p-float-label">

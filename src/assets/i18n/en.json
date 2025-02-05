@@ -33,7 +33,8 @@
     "FORM": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "APPID": "App ID"
+      "VDB": "Vdb",
+      "VDBCOLLECTION": "VdbCollection"
     }
   },
   "AI_KNOWLEDGE_VECTOR_DB_DETAILS": {

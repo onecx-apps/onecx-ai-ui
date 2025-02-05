@@ -1,12 +1,12 @@
 import { combineReducers, createFeature } from '@ngrx/store'
 import { AIKnowledgeVectorDbState } from './ai-knowledge-vector-db.state'
-import { aIKnowledgeVectorDbDetailsReducer } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.reducers'
-import { aIKnowledgeVectorDbSearchReducer } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.reducers'
+import { AIKnowledgeVectorDbDetailsReducer } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.reducers'
+import { AIKnowledgeVectorDbSearchReducer } from './pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.reducers'
 
-export const aIKnowledgeVectorDbFeature = createFeature({
-  name: 'aiKnowledgeVectorDb',
+export const AIKnowledgeVectorDbFeature = createFeature({
+  name: 'AIKnowledgeVectorDb',
   reducer: combineReducers<AIKnowledgeVectorDbState>({
-    details: aIKnowledgeVectorDbDetailsReducer,
-    search: aIKnowledgeVectorDbSearchReducer
+    details: AIKnowledgeVectorDbDetailsReducer,
+    search: AIKnowledgeVectorDbSearchReducer
   })
 })

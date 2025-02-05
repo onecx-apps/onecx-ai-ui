@@ -6,7 +6,7 @@ export const initialState: AIKnowledgeVectorDbDetailsState = {
   details: undefined
 }
 
-export const aIKnowledgeVectorDbDetailsReducer = createReducer(
+export const AIKnowledgeVectorDbDetailsReducer = createReducer(
   initialState,
   on(
     AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsReceived,

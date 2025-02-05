@@ -27,9 +27,9 @@ import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { AIKnowledgeVectorDbBffService } from '../../../shared/generated'
 import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
 import { AIKnowledgeVectorDbSearchComponent } from './ai-knowledge-vector-db-search.component'
-import { aIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
 import {
-  aIKnowledgeVectorDbSearchSelectors,
+  AIKnowledgeVectorDbSearchSelectors,
   selectAIKnowledgeVectorDbSearchViewModel
 } from './ai-knowledge-vector-db-search.selectors'
 import { AIKnowledgeVectorDbCreateUpdateComponent } from './dialogs/ai-knowledge-vector-db-create-update/ai-knowledge-vector-db-create-update.component'
@@ -40,7 +40,7 @@ export class AIKnowledgeVectorDbSearchEffects {
     private portalDialogService: PortalDialogService,
     private actions$: Actions,
     @SkipSelf() private route: ActivatedRoute,
-    private aIKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
+    private AIKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
@@ -55,11 +55,11 @@ export class AIKnowledgeVectorDbSearchEffects {
           AIKnowledgeVectorDbSearchActions.resetButtonClicked
         ),
         concatLatestFrom(() => [
-          this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria),
+          this.store.select(AIKnowledgeVectorDbSearchSelectors.selectCriteria),
           this.route.queryParams
         ]),
         tap(([, criteria, queryParams]) => {
-          const results = aIKnowledgeVectorDbSearchCriteriasSchema.safeParse(queryParams)
+          const results = AIKnowledgeVectorDbSearchCriteriasSchema.safeParse(queryParams)
           if (!results.success || !equal(criteria, results.data)) {
             const params = {
               ...criteria
@@ -101,7 +101,7 @@ export class AIKnowledgeVectorDbSearchEffects {
         AIKnowledgeVectorDbSearchActions.createAiKnowledgeVectorDbSucceeded,
         AIKnowledgeVectorDbSearchActions.updateAiKnowledgeVectorDbSucceeded
       ),
-      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectCriteria)),
       switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
     )
   })
@@ -109,7 +109,7 @@ export class AIKnowledgeVectorDbSearchEffects {
   editButtonClicked$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AIKnowledgeVectorDbSearchActions.editAiKnowledgeVectorDbButtonClicked),
-      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectResults)),
+      concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectResults)),
       map(([action, results]) => {
         return results.find((item) => item.id == action.id)
       }),
@@ -142,7 +142,7 @@ export class AIKnowledgeVectorDbSearchEffects {
         const itemToEdit = {
           dataObject: dialogResult.result
         } as UpdateAIKnowledgeVectorDb
-        return this.aIKnowledgeVectorDbService.updateAIKnowledgeVectorDb(itemToEditId, itemToEdit).pipe(
+        return this.AIKnowledgeVectorDbService.updateAIKnowledgeVectorDb(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.UPDATE.SUCCESS'
@@ -195,7 +195,7 @@ export class AIKnowledgeVectorDbSearchEffects {
         const toCreateItem = {
           dataObject: dialogResult.result
         } as CreateAIKnowledgeVectorDb
-        return this.aIKnowledgeVectorDbService.createAIKnowledgeVectorDb(toCreateItem).pipe(
+        return this.AIKnowledgeVectorDbService.createAIKnowledgeVectorDb(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_CREATE_UPDATE.CREATE.SUCCESS'
@@ -220,7 +220,7 @@ export class AIKnowledgeVectorDbSearchEffects {
   refreshSearchAfterDelete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbSucceeded),
-      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectCriteria)),
       switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
     )
   })
@@ -228,7 +228,7 @@ export class AIKnowledgeVectorDbSearchEffects {
   deleteButtonClicked$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AIKnowledgeVectorDbSearchActions.deleteAiKnowledgeVectorDbButtonClicked),
-      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectResults)),
+      concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectResults)),
       map(([action, results]) => {
         return results.find((item) => item.id == action.id)
       }),
@@ -260,7 +260,7 @@ export class AIKnowledgeVectorDbSearchEffects {
           throw new Error('Item to delete not found!')
         }
 
-        return this.aIKnowledgeVectorDbService.deleteAIKnowledgeVectorDb(itemToDelete.id).pipe(
+        return this.AIKnowledgeVectorDbService.deleteAIKnowledgeVectorDb(itemToDelete.id).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_VECTOR_DB_DELETE.SUCCESS'
@@ -286,15 +286,15 @@ export class AIKnowledgeVectorDbSearchEffects {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
       filterForNavigatedTo(this.router, AIKnowledgeVectorDbSearchComponent),
-      filterOutQueryParamsHaveNotChanged(this.router, aIKnowledgeVectorDbSearchCriteriasSchema, false),
-      concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectCriteria)),
+      filterOutQueryParamsHaveNotChanged(this.router, AIKnowledgeVectorDbSearchCriteriasSchema, false),
+      concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectCriteria)),
       switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
     )
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearch(searchCriteria: Record<string, any>) {
-    return this.aIKnowledgeVectorDbService
+    return this.AIKnowledgeVectorDbService
       .searchAIKnowledgeVectorDbs({
         ...Object.entries(searchCriteria).reduce(
           (acc, [key, value]) => ({
@@ -328,7 +328,7 @@ export class AIKnowledgeVectorDbSearchEffects {
       filterOutOnlyQueryParamsChanged(this.router),
       map(() =>
         AIKnowledgeVectorDbSearchActions.chartVisibilityRehydrated({
-          visible: localStorage.getItem('aIKnowledgeVectorDbChartVisibility') === 'true'
+          visible: localStorage.getItem('AIKnowledgeVectorDbChartVisibility') === 'true'
         })
       )
     )
@@ -338,16 +338,16 @@ export class AIKnowledgeVectorDbSearchEffects {
     () => {
       return this.actions$.pipe(
         ofType(AIKnowledgeVectorDbSearchActions.chartVisibilityToggled),
-        concatLatestFrom(() => this.store.select(aIKnowledgeVectorDbSearchSelectors.selectChartVisible)),
+        concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbSearchSelectors.selectChartVisible)),
         tap(([, chartVisible]) => {
-          localStorage.setItem('aIKnowledgeVectorDbChartVisibility', String(chartVisible))
+          localStorage.setItem('AIKnowledgeVectorDbChartVisibility', String(chartVisible))
         })
       )
     },
     { dispatch: false }
   )
 
-  exportData$ = createEffect(
+  exportDataButtonClicked$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(AIKnowledgeVectorDbSearchActions.chartVisibilityToggled),

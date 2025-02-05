@@ -52,7 +52,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   let fixture: ComponentFixture<AIKnowledgeVectorDbDetailsComponent>
   let store: MockStore<Store>
   let breadcrumbService: BreadcrumbService
-  let aIKnowledgeVectorDbDetails: AIKnowledgeVectorDbDetailsHarness
+  let AIKnowledgeVectorDbDetails: AIKnowledgeVectorDbDetailsHarness
 
   const mockActivatedRoute = {
     snapshot: {
@@ -88,7 +88,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       ],
       providers: [
         provideMockStore({
-          initialState: { aIKnowledgeVectorDb: { details: initialState } }
+          initialState: { AIKnowledgeVectorDb: { details: initialState } }
         }),
         BreadcrumbService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -109,7 +109,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     component = fixture.componentInstance
     breadcrumbService = TestBed.inject(BreadcrumbService)
     fixture.detectChanges()
-    aIKnowledgeVectorDbDetails = await TestbedHarnessEnvironment.harnessForFixture(
+    AIKnowledgeVectorDbDetails = await TestbedHarnessEnvironment.harnessForFixture(
       fixture,
       AIKnowledgeVectorDbDetailsHarness
     )
@@ -126,19 +126,19 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     fixture.detectChanges()
 
     expect(breadcrumbService.setItems).toHaveBeenCalledTimes(1)
-    const pageHeader = await aIKnowledgeVectorDbDetails.getHeader()
+    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const searchBreadcrumbItem = await pageHeader.getBreadcrumbItem('Details')
     expect(await searchBreadcrumbItem!.getText()).toEqual('Details')
   })
 
   it('should display translated headers', async () => {
-    const pageHeader = await aIKnowledgeVectorDbDetails.getHeader()
+    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     expect(await pageHeader.getHeaderText()).toEqual('AIKnowledgeVectorDb Details')
     expect(await pageHeader.getSubheaderText()).toEqual('Display of AIKnowledgeVectorDb Details')
   })
 
   it('should have 2 inline actions', async () => {
-    const pageHeader = await aIKnowledgeVectorDbDetails.getHeader()
+    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
     expect(inlineActions.length).toBe(2)
 
@@ -153,7 +153,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   it('should navigate back on back button click', async () => {
     jest.spyOn(window.history, 'back')
 
-    const pageHeader = await aIKnowledgeVectorDbDetails.getHeader()
+    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
     await backAction?.click()
 
@@ -169,8 +169,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       name: 'Test name',
       description: 'Test description',
       vdb: 'Test vdb',
-      vdbCollection: 'Test vdb collection',
-      aiContext: 'Test AppIDTest name'
+      vdbCollection: 'Test vdb collection'
     })
   })
 })

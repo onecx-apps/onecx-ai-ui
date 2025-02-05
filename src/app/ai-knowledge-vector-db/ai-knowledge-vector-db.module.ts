@@ -10,7 +10,7 @@ import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
 import { PortalCoreModule, providePortalDialogService } from '@onecx/portal-integration-angular'
 import { CalendarModule } from 'primeng/calendar'
 import { SharedModule } from '../shared/shared.module'
-import { aIKnowledgeVectorDbFeature } from './ai-knowledge-vector-db.reducers'
+import { AIKnowledgeVectorDbFeature } from './ai-knowledge-vector-db.reducers'
 import { routes } from './ai-knowledge-vector-db.routes'
 import { AIKnowledgeVectorDbDetailsComponent } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.component'
 import { AIKnowledgeVectorDbDetailsEffects } from './pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.effects'
@@ -35,7 +35,7 @@ import { AIKnowledgeVectorDbCreateUpdateComponent } from './pages/ai-knowledge-v
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
-    StoreModule.forFeature(aIKnowledgeVectorDbFeature),
+    StoreModule.forFeature(AIKnowledgeVectorDbFeature),
     EffectsModule.forFeature([AIKnowledgeVectorDbDetailsEffects, AIKnowledgeVectorDbSearchEffects]),
     TranslateModule
   ]

@@ -16,7 +16,7 @@ import { AIKnowledgeVectorDbDetailsComponent } from './ai-knowledge-vector-db-de
 export class AIKnowledgeVectorDbDetailsEffects {
   constructor(
     private actions$: Actions,
-    private aIKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
+    private AIKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService
@@ -39,7 +39,7 @@ export class AIKnowledgeVectorDbDetailsEffects {
     return this.actions$.pipe(
       ofType(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage),
       switchMap(({ id }) =>
-        this.aIKnowledgeVectorDbService.getAIKnowledgeVectorDbById(id ?? '').pipe(
+        this.AIKnowledgeVectorDbService.getAIKnowledgeVectorDbById(id ?? '').pipe(
           map(({ result }) =>
             AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsReceived({
               details: result

@@ -17,7 +17,7 @@ import { AIKnowledgeVectorDbSearchActions } from '../ai-knowledge-vector-db-sear
 export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
   viewModel$!: Observable<AIKnowledgeVectorDbDetailsViewModel> 
   headerActions$!: Observable<Action[]>
-  public aIKnowledgeVectorDbSearchFormGroup!: FormGroup
+  public AIKnowledgeVectorDbSearchFormGroup!: FormGroup
   public formGroup: FormGroup
 
   constructor(
@@ -28,8 +28,7 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
       name: new FormControl(null, [Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.maxLength(255)]),
       vdb: new FormControl(null, [Validators.maxLength(255)]),
-      vdbCollection: new FormControl(null, [Validators.maxLength(255)]),
-      aiContext: new FormControl(null, [Validators.maxLength(255)]),
+      vdbCollection: new FormControl(null, [Validators.maxLength(255)])
     })
   }
 
@@ -72,16 +71,12 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
       })
     )
 
-    this.viewModel$.subscribe((aIKnVec) => {
-      const name = aIKnVec.details?.name ?? ''
-      const appId = aIKnVec.details?.aiContext.appId ?? ''
-
+    this.viewModel$.subscribe((AIKnVec) => {
       this.formGroup.patchValue({
-        name: name,
-        description: aIKnVec.details?.description,
-        vdb: aIKnVec.details?.vdb,
-        vdbCollection: aIKnVec.details?.vdbCollection,
-        aiContext: appId + name
+        name: AIKnVec.details?.name ?? '',
+        description: AIKnVec.details?.description,
+        vdb: AIKnVec.details?.vdb,
+        vdbCollection: AIKnVec.details?.vdbCollection
       })
     })
 

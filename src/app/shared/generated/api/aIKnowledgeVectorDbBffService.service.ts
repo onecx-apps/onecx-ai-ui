@@ -158,7 +158,7 @@ export class AIKnowledgeVectorDbBffService {
             }
         }
 
-        let localVarPath = `/aIKnowledgeVectorDb`;
+        let localVarPath = `/AIKnowledgeVectorDb`;
         return this.httpClient.request<AIKnowledgeVectorDbCreateResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -216,7 +216,7 @@ export class AIKnowledgeVectorDbBffService {
             }
         }
 
-        let localVarPath = `/aIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -273,7 +273,7 @@ export class AIKnowledgeVectorDbBffService {
             }
         }
 
-        let localVarPath = `/aIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<GetAIKnowledgeVectorDbByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -287,7 +287,7 @@ export class AIKnowledgeVectorDbBffService {
     }
 
     /**
-     * This operation performs a search based on provided search criteria. Search for aIKnowledgeVectorDb results.
+     * This operation performs a search based on provided search criteria. Search for AIKnowledgeVectorDb results.
      * @param searchAIKnowledgeVectorDbRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -337,7 +337,7 @@ export class AIKnowledgeVectorDbBffService {
             }
         }
 
-        let localVarPath = `/aIKnowledgeVectorDb/search`;
+        let localVarPath = `/AIKnowledgeVectorDb/search`;
         return this.httpClient.request<SearchAIKnowledgeVectorDbResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -409,7 +409,7 @@ export class AIKnowledgeVectorDbBffService {
             }
         }
 
-        let localVarPath = `/aIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeVectorDb/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<AIKnowledgeVectorDbUpdateResponse>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

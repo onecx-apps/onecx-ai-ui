@@ -3,13 +3,13 @@ info:
   title: onecx-ai-ui-bff
   version: '1.0'
 paths:
-  /aIKnowledgeVectorDb/search:
+  /AIKnowledgeVectorDb/search:
     post:
       operationId: searchAIKnowledgeVectorDbs
       tags:
         - AIKnowledgeVectorDbBffService
       description: This operation performs a search based on provided search criteria.
-        Search for aIKnowledgeVectorDb results.
+        Search for AIKnowledgeVectorDb results.
       requestBody:
         content:
           application/json:
@@ -26,11 +26,11 @@ paths:
           description: Bad request
         '500':
           description: Something went wrong
-  /aIKnowledgeVectorDb/{id}:
+  /AIKnowledgeVectorDb/{id}:
     get:
       x-onecx:
         permissions:
-          aIKnowledgeVectorDb:
+          AIKnowledgeVectorDb:
             - read
       operationId: getAIKnowledgeVectorDbById
       tags:
@@ -65,7 +65,7 @@ paths:
     put:
       x-onecx:
         permissions:
-          aIKnowledgeVectorDb:
+          AIKnowledgeVectorDb:
             - write
       operationId: updateAIKnowledgeVectorDb
       tags:
@@ -118,7 +118,7 @@ paths:
       responses:
         '204':
           description: AIKnowledgeVectorDb deleted
-  /aIKnowledgeVectorDb:
+  /AIKnowledgeVectorDb:
     post:
       operationId: createAIKnowledgeVectorDb
       tags:

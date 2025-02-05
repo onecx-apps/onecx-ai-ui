@@ -14,7 +14,7 @@ import { BreadcrumbService, ColumnType, PortalCoreModule, UserService } from '@o
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { DialogService } from 'primeng/dynamicdialog'
 import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
-import { aIKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
+import { AIKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
 import { AIKnowledgeVectorDbSearchComponent } from './ai-knowledge-vector-db-search.component'
 import { AIKnowledgeVectorDbSearchHarness } from './ai-knowledge-vector-db-search.harness'
 import { initialState } from './ai-knowledge-vector-db-search.reducers'
@@ -59,7 +59,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
   let fixture: ComponentFixture<AIKnowledgeVectorDbSearchComponent>
   let store: MockStore<Store>
   let formBuilder: FormBuilder
-  let aIKnowledgeVectorDbSearch: AIKnowledgeVectorDbSearchHarness
+  let AIKnowledgeVectorDbSearch: AIKnowledgeVectorDbSearchHarness
 
   const mockActivatedRoute = {
     snapshot: {
@@ -67,7 +67,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     }
   }
   const baseAIKnowledgeVectorDbSearchViewModel: AIKnowledgeVectorDbSearchViewModel = {
-    columns: aIKnowledgeVectorDbSearchColumns,
+    columns: AIKnowledgeVectorDbSearchColumns,
     searchCriteria: {
       name: undefined,
       description: undefined,
@@ -117,7 +117,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
       providers: [
         DialogService,
         provideMockStore({
-          initialState: { aIKnowledgeVectorDb: { search: initialState } }
+          initialState: { AIKnowledgeVectorDb: { search: initialState } }
         }),
         FormBuilder,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -141,7 +141,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     fixture = TestBed.createComponent(AIKnowledgeVectorDbSearchComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
-    aIKnowledgeVectorDbSearch = await TestbedHarnessEnvironment.harnessForFixture(
+    AIKnowledgeVectorDbSearch = await TestbedHarnessEnvironment.harnessForFixture(
       fixture,
       AIKnowledgeVectorDbSearchHarness
     )
@@ -176,13 +176,13 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
       doneFn()
     })
 
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     await searchHeader.clickResetButton()
     expect(doneFn).toHaveBeenCalledTimes(1)
   })
 
   it('should have 2 overFlow header actions when search config is disabled', async () => {
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     const overflowActionButton = await pageHeader.getOverflowActionMenuButton()
     await overflowActionButton?.click()
@@ -204,7 +204,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     const overflowActionButton = await pageHeader.getOverflowActionMenuButton()
     await overflowActionButton?.click()
@@ -248,7 +248,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const diagram = await (await aIKnowledgeVectorDbSearch.getDiagram())!.getDiagram()
+    const diagram = await (await AIKnowledgeVectorDbSearch.getDiagram())!.getDiagram()
 
     expect(await diagram.getTotalNumberOfResults()).toBe(3)
     expect(await diagram.getSumLabel()).toEqual('Total')
@@ -262,7 +262,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     fixture.detectChanges()
 
     expect(breadcrumbService.setItems).toHaveBeenCalledTimes(1)
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     const searchBreadcrumbItem = await pageHeader.getBreadcrumbItem('Search')
 
@@ -273,7 +273,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     const formValue = formBuilder.group({
       changeMe: '123'
     })
-    component.aIKnowledgeVectorDbSearchFormGroup = formValue
+    component.AIKnowledgeVectorDbSearchFormGroup = formValue
 
     store.scannedActions$.pipe(ofType(AIKnowledgeVectorDbSearchActions.searchButtonClicked)).subscribe((a) => {
       expect(a.searchCriteria).toEqual({ changeMe: '123' })
@@ -305,7 +305,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const interactiveDataView = await aIKnowledgeVectorDbSearch.getSearchResults()
+    const interactiveDataView = await AIKnowledgeVectorDbSearch.getSearchResults()
     const dataView = await interactiveDataView.getDataView()
     const dataTable = await dataView.getDataTable()
     const rowActionButtons = await dataTable?.getActionButtons()
@@ -349,7 +349,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const interactiveDataView = await aIKnowledgeVectorDbSearch.getSearchResults()
+    const interactiveDataView = await AIKnowledgeVectorDbSearch.getSearchResults()
     const dataView = await interactiveDataView.getDataView()
     const dataTable = await dataView.getDataTable()
     const rowActionButtons = await dataTable?.getActionButtons()
@@ -373,7 +373,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
   it('should dispatch createAIKnowledgeVectorDbButtonClicked action on create click', async () => {
     jest.spyOn(store, 'dispatch')
 
-    const header = await aIKnowledgeVectorDbSearch.getHeader()
+    const header = await AIKnowledgeVectorDbSearch.getHeader()
     const createButton = await (await header.getPageHeader()).getInlineActionButtonByIcon(PrimeIcons.PLUS)
 
     expect(createButton).toBeTruthy()
@@ -409,7 +409,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     const overflowActionButton = await pageHeader.getOverflowActionMenuButton()
     await overflowActionButton?.click()
@@ -436,13 +436,13 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     fixture = TestBed.createComponent(AIKnowledgeVectorDbSearchComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
-    aIKnowledgeVectorDbSearch = await TestbedHarnessEnvironment.harnessForFixture(
+    AIKnowledgeVectorDbSearch = await TestbedHarnessEnvironment.harnessForFixture(
       fixture,
       AIKnowledgeVectorDbSearchHarness
     )
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      AIKnowledgeVectorDbSearchActions.displayedColumnsChanged({ displayedColumns: aIKnowledgeVectorDbSearchColumns })
+      AIKnowledgeVectorDbSearchActions.displayedColumnsChanged({ displayedColumns: AIKnowledgeVectorDbSearchColumns })
     )
 
     jest.clearAllMocks()
@@ -464,7 +464,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const interactiveDataView = await aIKnowledgeVectorDbSearch.getSearchResults()
+    const interactiveDataView = await AIKnowledgeVectorDbSearch.getSearchResults()
     const columnGroupSelector = await interactiveDataView?.getCustomGroupColumnSelector()
     expect(columnGroupSelector).toBeTruthy()
     await columnGroupSelector!.openCustomGroupColumnSelectorDialog()
@@ -503,7 +503,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     const overflowActionButton = await pageHeader.getOverflowActionMenuButton()
     await overflowActionButton?.click()
@@ -514,7 +514,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
   })
 
   it('should display translated headers', async () => {
-    const searchHeader = await aIKnowledgeVectorDbSearch.getHeader()
+    const searchHeader = await AIKnowledgeVectorDbSearch.getHeader()
     const pageHeader = await searchHeader.getPageHeader()
     expect(await pageHeader.getHeaderText()).toEqual('AIKnowledgeVectorDb Search')
     expect(await pageHeader.getSubheaderText()).toEqual('Searching and displaying of AIKnowledgeVectorDb')
@@ -536,7 +536,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    const interactiveDataView = await aIKnowledgeVectorDbSearch.getSearchResults()
+    const interactiveDataView = await AIKnowledgeVectorDbSearch.getSearchResults()
     const dataView = await interactiveDataView.getDataView()
     const dataTable = await dataView.getDataTable()
     const rows = await dataTable?.getRows()
@@ -564,7 +564,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    let diagram = await aIKnowledgeVectorDbSearch.getDiagram()
+    let diagram = await AIKnowledgeVectorDbSearch.getDiagram()
     expect(diagram).toBeNull()
 
     store.overrideSelector(selectAIKnowledgeVectorDbSearchViewModel, {
@@ -587,7 +587,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    diagram = await aIKnowledgeVectorDbSearch.getDiagram()
+    diagram = await AIKnowledgeVectorDbSearch.getDiagram()
     expect(diagram).toBeNull()
 
     store.overrideSelector(selectAIKnowledgeVectorDbSearchViewModel, {
@@ -610,7 +610,7 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
     })
     store.refreshState()
 
-    diagram = await aIKnowledgeVectorDbSearch.getDiagram()
+    diagram = await AIKnowledgeVectorDbSearch.getDiagram()
     expect(diagram).toBeTruthy()
   })
 })

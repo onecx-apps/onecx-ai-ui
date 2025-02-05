@@ -1,7 +1,7 @@
 import { SearchAIKnowledgeVectorDbRequest } from 'src/app/shared/generated'
 import { z, ZodTypeAny } from 'zod'
 
-export const aIKnowledgeVectorDbSearchCriteriasSchema = z.object({
+export const AIKnowledgeVectorDbSearchCriteriasSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
   vdb: z.string().optional(),
@@ -10,4 +10,4 @@ export const aIKnowledgeVectorDbSearchCriteriasSchema = z.object({
   limit: z.number().optional()
 } satisfies Partial<Record<keyof SearchAIKnowledgeVectorDbRequest, ZodTypeAny>>)
 
-export type AIKnowledgeVectorDbSearchCriteria = z.infer<typeof aIKnowledgeVectorDbSearchCriteriasSchema>
+export type AIKnowledgeVectorDbSearchCriteria = z.infer<typeof AIKnowledgeVectorDbSearchCriteriasSchema>

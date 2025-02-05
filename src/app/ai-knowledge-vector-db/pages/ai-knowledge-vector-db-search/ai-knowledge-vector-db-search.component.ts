@@ -14,7 +14,7 @@ import { map, Observable } from 'rxjs'
 import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
 import {
   AIKnowledgeVectorDbSearchCriteria,
-  aIKnowledgeVectorDbSearchCriteriasSchema
+  AIKnowledgeVectorDbSearchCriteriasSchema
 } from './ai-knowledge-vector-db-search.parameters'
 import { selectAIKnowledgeVectorDbSearchViewModel } from './ai-knowledge-vector-db-search.selectors'
 import { AIKnowledgeVectorDbSearchViewModel } from './ai-knowledge-vector-db-search.viewmodel'
@@ -27,7 +27,7 @@ import { AIKnowledgeVectorDbSearchViewModel } from './ai-knowledge-vector-db-sea
 export class AIKnowledgeVectorDbSearchComponent implements OnInit {
   viewModel$!: Observable<AIKnowledgeVectorDbSearchViewModel> 
   headerActions$!: Observable<Action[]>
-  public aIKnowledgeVectorDbSearchFormGroup!: FormGroup
+  public AIKnowledgeVectorDbSearchFormGroup!: FormGroup
   diagramColumnId = 'vdb'
   diagramColumn$!: Observable<DataTableColumn>
 
@@ -77,8 +77,8 @@ export class AIKnowledgeVectorDbSearchComponent implements OnInit {
       map((vm) => vm.columns.find((e) => e.id === this.diagramColumnId) as DataTableColumn)
     )
 
-    this.aIKnowledgeVectorDbSearchFormGroup = this.formBuilder.group({
-      ...(Object.fromEntries(aIKnowledgeVectorDbSearchCriteriasSchema.keyof().options.map((k) => [k, null])) as Record<
+    this.AIKnowledgeVectorDbSearchFormGroup = this.formBuilder.group({
+      ...(Object.fromEntries(AIKnowledgeVectorDbSearchCriteriasSchema.keyof().options.map((k) => [k, null])) as Record<
         keyof AIKnowledgeVectorDbSearchCriteria,
         unknown
       >)
@@ -91,7 +91,7 @@ export class AIKnowledgeVectorDbSearchComponent implements OnInit {
         routerLink: '/ai-knowledge-vector-db'
       }
     ])
-    this.viewModel$.subscribe((vm) => this.aIKnowledgeVectorDbSearchFormGroup.patchValue(vm.searchCriteria))
+    this.viewModel$.subscribe((vm) => this.AIKnowledgeVectorDbSearchFormGroup.patchValue(vm.searchCriteria))
   }
 
   search(formValue: FormGroup) {

@@ -22,14 +22,14 @@ app:
       spec:
         permissions:
           AI_KNOWLEDGE_VECTOR_DB:
-            CREATE: Create aIKnowledgeVectorDb
-            EDIT: Edit aIKnowledgeVectorDb
-            DELETE: Delete aIKnowledgeVectorDb
-            SAVE: Update and save aIKnowledgeVectorDb
-            IMPORT: Import aIKnowledgeVectorDb
-            EXPORT: Export aIKnowledgeVectorDb
-            VIEW: View mode for aIKnowledgeVectorDb
-            SEARCH: Search aIKnowledgeVectorDb
+            CREATE: Create AIKnowledgeVectorDb
+            EDIT: Edit AIKnowledgeVectorDb
+            DELETE: Delete AIKnowledgeVectorDb
+            SAVE: Update and save AIKnowledgeVectorDb
+            IMPORT: Import AIKnowledgeVectorDb
+            EXPORT: Export AIKnowledgeVectorDb
+            VIEW: View mode for AIKnowledgeVectorDb
+            SEARCH: Search AIKnowledgeVectorDb
     keycloak:
       client:
         enabled: true

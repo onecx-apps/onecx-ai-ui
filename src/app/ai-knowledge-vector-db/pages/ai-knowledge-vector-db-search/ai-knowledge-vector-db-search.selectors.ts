@@ -1,17 +1,17 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
 import { DataTableColumn, RowListGridData } from '@onecx/portal-integration-angular'
-import { aIKnowledgeVectorDbFeature } from '../../ai-knowledge-vector-db.reducers'
+import { AIKnowledgeVectorDbFeature } from '../../ai-knowledge-vector-db.reducers'
 import { initialState } from './ai-knowledge-vector-db-search.reducers'
 import { AIKnowledgeVectorDbSearchViewModel } from './ai-knowledge-vector-db-search.viewmodel'
 
-export const aIKnowledgeVectorDbSearchSelectors = createChildSelectors(
-  aIKnowledgeVectorDbFeature.selectSearch,
+export const AIKnowledgeVectorDbSearchSelectors = createChildSelectors(
+  AIKnowledgeVectorDbFeature.selectSearch,
   initialState
 )
 
 export const selectResults = createSelector(
-  aIKnowledgeVectorDbSearchSelectors.selectResults,
+  AIKnowledgeVectorDbSearchSelectors.selectResults,
   (results): RowListGridData[] => {
     return results.map((item) => ({
       imagePath: '',
@@ -25,20 +25,20 @@ export const selectResults = createSelector(
 )
 
 export const selectDisplayedColumns = createSelector(
-  aIKnowledgeVectorDbSearchSelectors.selectColumns,
-  aIKnowledgeVectorDbSearchSelectors.selectDisplayedColumns,
+  AIKnowledgeVectorDbSearchSelectors.selectColumns,
+  AIKnowledgeVectorDbSearchSelectors.selectDisplayedColumns,
   (columns, displayedColumns): DataTableColumn[] => {
     return (displayedColumns?.map((d) => columns.find((c) => c.id === d)).filter((d) => d) as DataTableColumn[]) ?? []
   }
 )
 
 export const selectAIKnowledgeVectorDbSearchViewModel = createSelector(
-  aIKnowledgeVectorDbSearchSelectors.selectColumns,
-  aIKnowledgeVectorDbSearchSelectors.selectCriteria,
+  AIKnowledgeVectorDbSearchSelectors.selectColumns,
+  AIKnowledgeVectorDbSearchSelectors.selectCriteria,
   selectResults,
   selectDisplayedColumns,
-  aIKnowledgeVectorDbSearchSelectors.selectViewMode,
-  aIKnowledgeVectorDbSearchSelectors.selectChartVisible,
+  AIKnowledgeVectorDbSearchSelectors.selectViewMode,
+  AIKnowledgeVectorDbSearchSelectors.selectChartVisible,
   (columns, searchCriteria, results, displayedColumns, viewMode, chartVisible): AIKnowledgeVectorDbSearchViewModel => ({
     columns,
     searchCriteria,

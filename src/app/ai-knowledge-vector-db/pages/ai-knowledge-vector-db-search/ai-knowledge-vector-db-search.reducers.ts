@@ -1,12 +1,12 @@
 import { routerNavigatedAction, RouterNavigatedAction } from '@ngrx/router-store'
 import { createReducer, on } from '@ngrx/store'
 import { AIKnowledgeVectorDbSearchActions } from './ai-knowledge-vector-db-search.actions'
-import { aIKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
-import { aIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
+import { AIKnowledgeVectorDbSearchColumns } from './ai-knowledge-vector-db-search.columns'
+import { AIKnowledgeVectorDbSearchCriteriasSchema } from './ai-knowledge-vector-db-search.parameters'
 import { AIKnowledgeVectorDbSearchState } from './ai-knowledge-vector-db-search.state'
 
 export const initialState: AIKnowledgeVectorDbSearchState = {
-  columns: aIKnowledgeVectorDbSearchColumns,
+  columns: AIKnowledgeVectorDbSearchColumns,
   results: [],
   displayedColumns: null,
   viewMode: 'basic',
@@ -15,10 +15,10 @@ export const initialState: AIKnowledgeVectorDbSearchState = {
   criteria: {}
 }
 
-export const aIKnowledgeVectorDbSearchReducer = createReducer(
+export const AIKnowledgeVectorDbSearchReducer = createReducer(
   initialState,
   on(routerNavigatedAction, (state: AIKnowledgeVectorDbSearchState, action: RouterNavigatedAction) => {
-    const results = aIKnowledgeVectorDbSearchCriteriasSchema.safeParse(action.payload.routerState.root.queryParams)
+    const results = AIKnowledgeVectorDbSearchCriteriasSchema.safeParse(action.payload.routerState.root.queryParams)
     if (results.success) {
       return {
         ...state,

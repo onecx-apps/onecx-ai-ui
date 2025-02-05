@@ -1,6 +1,6 @@
 import { ColumnType, DataTableColumn } from '@onecx/angular-accelerator'
 
-export const aIKnowledgeVectorDbSearchColumns: DataTableColumn[] = [
+export const AIKnowledgeVectorDbSearchColumns: DataTableColumn[] = [
     {
         columnType: ColumnType.STRING,
         id: 'name',
@@ -20,7 +20,6 @@ export const aIKnowledgeVectorDbSearchColumns: DataTableColumn[] = [
         filterable: true,
         sortable: true,
         predefinedGroupKeys: [
-          'AI_KNOWLEDGE_VECTOR_DB_SEARCH.PREDEFINED_GROUP.DEFAULT',
           'AI_KNOWLEDGE_VECTOR_DB_SEARCH.PREDEFINED_GROUP.EXTENDED',
           'AI_KNOWLEDGE_VECTOR_DB_SEARCH.PREDEFINED_GROUP.FULL'
         ]

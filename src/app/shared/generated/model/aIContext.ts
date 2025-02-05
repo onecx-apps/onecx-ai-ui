@@ -10,6 +10,6 @@
 
 
 export interface AIContext { 
-    appId: string;
+    appId?: string;
 }
 
