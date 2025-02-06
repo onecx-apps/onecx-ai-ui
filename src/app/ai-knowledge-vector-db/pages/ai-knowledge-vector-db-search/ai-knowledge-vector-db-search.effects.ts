@@ -347,10 +347,10 @@ export class AIKnowledgeVectorDbSearchEffects {
     { dispatch: false }
   )
 
-  exportDataButtonClicked$ = createEffect(
+  exportData$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AIKnowledgeVectorDbSearchActions.chartVisibilityToggled),
+        ofType(AIKnowledgeVectorDbSearchActions.exportButtonClicked),
         concatLatestFrom(() => this.store.select(selectAIKnowledgeVectorDbSearchViewModel)),
         map(([, viewModel]) => {
           this.exportDataService.exportCsv(viewModel.displayedColumns, viewModel.results, 'AIKnowledgeVectorDb.csv')
